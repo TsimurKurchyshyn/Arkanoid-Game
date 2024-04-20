@@ -1,13 +1,19 @@
 const CANVAS_NODE = document.getElementById("arkanoid");
 const CTX = CANVAS_NODE.getContext("2d");
+
+// Даем нашему будуйщему шарику радиус в 10 пикселей.
 const BALL_RADIUS = 10;
 
+// Этот цвет будет главным цветом в нашей игре. Для примера, граница нашей игры.
 CTX.fillStyle = "#0095DD";
+// Шрифт текста в игре.
 CTX.font = "16px Arial";
 
+// Ширина и высота платформы в игре.
 const PADDLE_WIDTH = 75;
 const PADDLE_HEIGHT = 10;
 
+// Разметка блоков в игре. Сколько будет стоять в колонну и в ряд. Также указана дистанция блоков.
 const BRICK_ROW_COUNT = 5;
 const BRICK_COLUMN_COUNT = 3;
 const BRICK_WIDTH = 75;
@@ -15,18 +21,21 @@ const BRICK_HEIGHT = 20;
 const BRICK_PADDING = 10;
 const BRICK_OFFSET = 30;
 
+// Даем нашему будуйщему шарику координаты где он будет появлятся.
 let BallX = CANVAS_NODE.width / 2;
 let BallY = CANVAS_NODE.height - 30;
-let dx = 2;
-let dy = -2;
 
+
+// Даем начальное направление нашему шарику.
 let paddleX = (CANVAS_NODE.width - CANVAS_NODE.height) / 2;
 
+// Создаем начальный счёт и количество жизней.
 let score = 0;
 let lives = 3;
 
 const bricks = [];
 
+// Задаем нашим блокам свойства как они будут построены.
 for (let c=0; c<BRICK_COLUMN_COUNT; c++){
     bricks[c] = [];
 
@@ -39,6 +48,7 @@ for (let c=0; c<BRICK_COLUMN_COUNT; c++){
     }
 }
 
+// Создаем функцию которая будет рисовать наш шарик.
 function drawBall() {
     CTX.beginPath();
     CTX.arc(BallX, BallY, BALL_RADIUS, 0, Math.PI * 2);
@@ -46,6 +56,7 @@ function drawBall() {
     CTX.closePath();
 }
 
+// Создаем функцию которая будет рисовать платформу.
 function drawPaddle() {
     CTX.beginPath();
     CTX.rect(
@@ -59,6 +70,7 @@ function drawPaddle() {
     CTX.closePath();
 }
 
+// Создаем функцию которая будет рисовать блоки.
 function drawBricks() {
     for (let c=0; c<BRICK_COLUMN_COUNT; c++){
         for (let r=0; r< BRICK_ROW_COUNT; r++){
@@ -79,14 +91,17 @@ function drawBricks() {
     }
 }
 
+// Создаем функцию которая будет рисовать  счёт.
 function drawScore() {
     CTX.fillText("Счет: " + score, 8, 20);
 }
 
+// Создаем функцию которая будет рисовать наш количество жизней.
 function drawLives() {
     CTX.fillText("Жизней: " + lives, CANVAS_NODE.width - 85,20);
 }
 
+// Создаем функцию которая будет подмечать столкновения шарика с блоками. Если шарик коснется блока то блок исчезнет. Также она имеет свойство если вся блоки исчезнут то игра закончится.
 function detectCollision() {
     for (let c=0; c<BRICK_COLUMN_COUNT; c++) {
         for (let r=0; r<BRICK_ROW_COUNT; r++){
@@ -115,8 +130,10 @@ function detectCollision() {
     }
 }
 
+//  Данный код Сделает чтобы функция handleMouseMove работала в игре.
 document.addEventListener('mousemove',handleMouseMove);
 
+// Создаем функцию с помощъю которой мы будем управлять нашей платформой при помощи мышки.
 function handleMouseMove(e) {
 
     const RELATIVE_X = e.clientX - CANVAS_NODE.offsetLeft;
@@ -126,6 +143,7 @@ function handleMouseMove(e) {
     }
 }
 
+// Создаем функцию которая будет выводить на экран нарисованные обьекты. Она также будет отвечать за конец игры; если количество жизней будет 0 то игра закончится
 function draw() {
     CTX.clearRect(0, 0, CANVAS_NODE.width, CANVAS_NODE.height);
     drawBall();
@@ -171,4 +189,5 @@ function draw() {
     requestAnimationFrame(draw);
 }
 
+//Запускаем функцию.
 draw();
