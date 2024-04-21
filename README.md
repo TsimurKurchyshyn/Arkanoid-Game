@@ -4,5 +4,5 @@
 
 ---
 
-## Instruction
-> This game has no keybuttons
+## Controls
+> This game has no key controls. Move the mouse to the left or right for paddle to move.
